@@ -110,13 +110,13 @@ public class TeladeLogin extends javax.swing.JDialog {
             String email, senha;
             
             email = txtemail.getText();
-            senha = new String(txtsenha.getPassword());
+            senha = new String(txtsenha.getPassword()).trim();
             JOptionPane.showMessageDialog(null,senha);
 
             ClientesDAO dao = new ClientesDAO();
             
             if(dao.efetuarLogin(email, senha)){
-                
+                JOptionPane.showMessageDialog(null,"dsa");
                 Cliente telacliente = new Cliente (null, rootPaneCheckingEnabled);
                 this.dispose();    
                 telacliente.setVisible(true);
