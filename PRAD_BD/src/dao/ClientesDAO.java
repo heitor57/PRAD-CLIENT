@@ -101,7 +101,7 @@ public class ClientesDAO {
     
     public boolean efetuarLogin(String email,String senha){
         try{
-            String cmdsql = "select * from cliente where cli_email=? and senha=?";
+            String cmdsql = "select * from cliente where cli_email=? and cli_senha=?";
             PreparedStatement stmt = conecta.prepareStatement(cmdsql);
             stmt.setString(1,email);
             stmt.setString(2,senha);

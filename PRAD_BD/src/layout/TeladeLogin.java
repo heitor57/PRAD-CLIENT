@@ -5,6 +5,9 @@
  */
 package layout;
 
+import dao.ClientesDAO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Suporte
@@ -49,6 +52,11 @@ public class TeladeLogin extends javax.swing.JDialog {
 
         btlogar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btlogar.setText("Logar");
+        btlogar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btlogarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,6 +103,33 @@ public class TeladeLogin extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btlogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btlogarActionPerformed
+        // TODO add your handling code here:
+        try{
+            
+            String email, senha;
+            
+            email = txtemail.getText();
+            senha = new String(txtsenha.getPassword());
+            JOptionPane.showMessageDialog(null,senha);
+
+            ClientesDAO dao = new ClientesDAO();
+            
+            if(dao.efetuarLogin(email, senha)){
+                
+                Cliente telacliente = new Cliente (null, rootPaneCheckingEnabled);
+                this.dispose();    
+                telacliente.setVisible(true);
+                 
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Dados incorretos");
+            }
+        } catch (Exception e){
+            
+        }
+    }//GEN-LAST:event_btlogarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -133,6 +168,7 @@ public class TeladeLogin extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+                
             }
         });
     }

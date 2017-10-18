@@ -25,7 +25,13 @@ public class Cliente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-
+    public Cliente(Clientes obj){
+        initComponents();
+        txtcodigo.setText(String.valueOf(obj.getId()));
+        txtnome.setText(obj.getNome());
+        txtemail1.setText(obj.getEmail());
+        txttelefone.setText(obj.getTelefone());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
