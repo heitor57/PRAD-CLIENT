@@ -23,6 +23,18 @@ public class CidadesDAO {
     public CidadesDAO(){
         this.conecta = new ConectionFactory().conecta();
     }
+    public ResultSet getCidade(String nome){
+        try{
+            String Sql = "SELECT * FROM cidade,uf WHERE ID_UF = iduf AND CID_NOME = ?";
+            PreparedStatement stmt = conecta.prepareStatement(Sql);
+            stmt.setString(0,nome);
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        }catch (Exception e){
+            
+        }
+        return null;
+    }
     public List<Cidades> listarCidades(){
         try{
             List<Cidades> lista = new ArrayList<Cidades>();
@@ -33,7 +45,7 @@ public class CidadesDAO {
                 Cidades c = new Cidades();
                 c.setId(rs.getInt("cid_codigo"));
                 c.setNome(rs.getString("cid_nome"));
-                c.setUf(rs.getString("cid_uf"));
+                c.setUf(rs.getInt("cid_uf"));
                 lista.add(c);
             }
         
@@ -48,7 +60,7 @@ public class CidadesDAO {
             String cmdsql = "insert into cidade(cid_nome, cid_uf) values (?,?)";
             PreparedStatement stmt = conecta.prepareStatement(cmdsql);
             stmt.setString(1, obj.getNome());
-            stmt.setString(2, obj.getUf());
+            stmt.setInt(2, obj.getUf());
             stmt.execute();
             
             stmt.close();
@@ -63,7 +75,7 @@ public class CidadesDAO {
             String cmdsql = "update cidade set cid_nome=?, cid_uf=? where cid_codigo=?";
             PreparedStatement stmt = conecta.prepareStatement(cmdsql);
             stmt.setString(1, obj.getNome());
-            stmt.setString(2, obj.getUf());
+            stmt.setInt(2, obj.getUf());
             stmt.setInt(3, obj.getId());
             stmt.execute();
             

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 18-Out-2017 às 04:41
+-- Generation Time: 30-Out-2017 às 22:44
 -- Versão do servidor: 10.1.10-MariaDB
 -- PHP Version: 7.0.4
 
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cidade` (
   `CID_CODIGO` int(11) NOT NULL,
-  `CID_NOME` varchar(100) NOT NULL,
-  `CID_UF` varchar(50) NOT NULL
+  `CID_NOME` varchar(60) NOT NULL,
+  `CID_UF` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -37,13 +37,11 @@ CREATE TABLE `cidade` (
 --
 
 INSERT INTO `cidade` (`CID_CODIGO`, `CID_NOME`, `CID_UF`) VALUES
-(1, 'gfd', 'fdf'),
-(2, 'gfd', 'ddfdf'),
-(3, 'dsadsa', '12'),
-(4, 'dsadsadasdsa', 'dsadsa'),
-(5, 'das', 'dsadsa'),
-(6, 'dsadsa', 'dsadsaasd'),
-(7, 'dsadsa', 'sadsad');
+(1, 'Leopoldina', 1),
+(3, 'Laranjal', 1),
+(4, 'Muriae', 1),
+(5, 'dasdsa', 1),
+(6, 'dasdsa', 2);
 
 -- --------------------------------------------------------
 
@@ -74,6 +72,25 @@ INSERT INTO `cliente` (`CLI_CODIGO`, `CLI_NOME`, `CLI_EMAIL`, `CLI_TELEFONE`, `C
 (8, 'DDDDD', 'DSADSA', '(31)2132-1233', ''),
 (9, 'heitor', 'heitorwerneck@hotmail.com', '(23)2131-1323', '123');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `uf`
+--
+
+CREATE TABLE `uf` (
+  `iduf` int(11) NOT NULL,
+  `sigla` varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `uf`
+--
+
+INSERT INTO `uf` (`iduf`, `sigla`) VALUES
+(1, 'MG'),
+(2, 'SP');
+
 --
 -- Indexes for dumped tables
 --
@@ -82,13 +99,20 @@ INSERT INTO `cliente` (`CLI_CODIGO`, `CLI_NOME`, `CLI_EMAIL`, `CLI_TELEFONE`, `C
 -- Indexes for table `cidade`
 --
 ALTER TABLE `cidade`
-  ADD PRIMARY KEY (`CID_CODIGO`);
+  ADD PRIMARY KEY (`CID_CODIGO`),
+  ADD KEY `ID_UF_IN` (`CID_UF`) USING BTREE;
 
 --
 -- Indexes for table `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`CLI_CODIGO`);
+
+--
+-- Indexes for table `uf`
+--
+ALTER TABLE `uf`
+  ADD PRIMARY KEY (`iduf`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -98,12 +122,27 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT for table `cidade`
 --
 ALTER TABLE `cidade`
-  MODIFY `CID_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `CID_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `cliente`
 --
 ALTER TABLE `cliente`
   MODIFY `CLI_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `uf`
+--
+ALTER TABLE `uf`
+  MODIFY `iduf` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Limitadores para a tabela `cidade`
+--
+ALTER TABLE `cidade`
+  ADD CONSTRAINT `ID_UF_FK` FOREIGN KEY (`CID_UF`) REFERENCES `uf` (`iduf`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

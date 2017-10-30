@@ -7,9 +7,14 @@ package layout;
 
 import dao.CidadesDAO;
 import dao.ClientesDAO;
+import dao.UfDAO;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import javabeans.Cidades;
 import javabeans.Clientes;
+import javabeans.Uf;
+import javafx.scene.control.ComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,6 +50,7 @@ public class Cidade extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelacidade = new javax.swing.JTable();
         btatualizar = new javax.swing.JButton();
+        cbouf = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cidade");
@@ -54,6 +60,7 @@ public class Cidade extends javax.swing.JDialog {
             }
         });
 
+        txtuf.setEditable(false);
         txtuf.setBorder(javax.swing.BorderFactory.createTitledBorder("UF"));
 
         txtcodigo.setEditable(false);
@@ -97,6 +104,13 @@ public class Cidade extends javax.swing.JDialog {
             }
         });
 
+        cbouf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um Estado" }));
+        cbouf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboufActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,7 +127,10 @@ public class Cidade extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btsalvar))
                             .addComponent(btatualizar)))
-                    .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbouf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtuf, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -129,7 +146,9 @@ public class Cidade extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbouf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(txtuf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -156,6 +175,17 @@ public class Cidade extends javax.swing.JDialog {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Listar();
+        try{
+            
+            UfDAO dao_t = new UfDAO();
+            List<Uf> lista = dao_t.listarEstados();
+            for(Uf u:lista){
+                cbouf.addItem(u.getSigla());
+            }
+                    
+        }catch(Exception e){
+            
+        }
     }//GEN-LAST:event_formWindowActivated
 
     private void tabelacidadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelacidadeMouseClicked
@@ -168,6 +198,16 @@ public class Cidade extends javax.swing.JDialog {
         Atualizar();
     }//GEN-LAST:event_btatualizarActionPerformed
 
+    private void cboufActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboufActionPerformed
+        // TODO add your handling code here:
+        CidadesDAO cidade = new CidadesDAO();
+        try{
+        txtuf.setText(String.valueOf(cidade.getCidade(cbouf.getSelectedItem().toString()).getInt("cid_uf")));
+        }catch(Exception e){
+            
+        }
+    }//GEN-LAST:event_cboufActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -177,6 +217,7 @@ public class Cidade extends javax.swing.JDialog {
     private javax.swing.JButton btatualizar;
     private javax.swing.JButton btnovo;
     private javax.swing.JButton btsalvar;
+    private javax.swing.JComboBox<String> cbouf;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelacidade;
     private javax.swing.JTextField txtcodigo;
@@ -192,9 +233,11 @@ public class Cidade extends javax.swing.JDialog {
     }
     void Salvar(){
         try{
+            UfDAO temp = new UfDAO();
+            
             Cidades obj = new Cidades();
             obj.setNome(txtnome.getText());
-            obj.setUf(txtuf.getText());
+            obj.setUf(temp.buscarEstado(cbouf.getSelectedItem().toString()));
             
             dao = new CidadesDAO();
             dao.cadastrarCidade(obj);
@@ -226,9 +269,10 @@ public class Cidade extends javax.swing.JDialog {
     }
     void Atualizar(){
         try{
+            UfDAO temp = new UfDAO();
             Cidades obj = new Cidades();
             obj.setNome(txtnome.getText());
-            obj.setUf(txtuf.getText());
+            obj.setUf(temp.buscarEstado(cbouf.getSelectedItem().toString()));
             obj.setId(Integer.parseInt(txtcodigo.getText()));
             
             dao = new CidadesDAO();

@@ -12,7 +12,7 @@ package javabeans;
 public class Cidades {
     private Integer id;
     private String nome;
-    private String uf;
+    private Integer uf;
 
     public Integer getId() {
         return id;
@@ -30,12 +30,15 @@ public class Cidades {
         this.nome = nome;
     }
 
-    public String getUf() {
+    public Integer getUf() {
         return uf;
     }
 
-    public void setUf(String uf) {
+    public void setUf(Integer uf) {
         this.uf = uf;
     }
+
+
     
+
 }
