@@ -31,7 +31,46 @@ public class Cidade extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TeladeLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TeladeLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TeladeLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TeladeLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Cidade dialog = new Cidade(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+                
+            }
+        });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,9 +144,9 @@ public class Cidade extends javax.swing.JDialog {
         });
 
         cbouf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um Estado" }));
-        cbouf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboufActionPerformed(evt);
+        cbouf.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboufItemStateChanged(evt);
             }
         });
 
@@ -134,7 +173,7 @@ public class Cidade extends javax.swing.JDialog {
                     .addComponent(txtuf, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -198,15 +237,17 @@ public class Cidade extends javax.swing.JDialog {
         Atualizar();
     }//GEN-LAST:event_btatualizarActionPerformed
 
-    private void cboufActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboufActionPerformed
-        // TODO add your handling code here:
-        CidadesDAO cidade = new CidadesDAO();
-        try{
-        txtuf.setText(String.valueOf(cidade.getCidade(cbouf.getSelectedItem().toString()).getInt("cid_uf")));
-        }catch(Exception e){
-            
+    private void cboufItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboufItemStateChanged
+        if(cbouf.getSelectedItem().toString() != cbouf.getItemAt(0)){
+            CidadesDAO cidade = new CidadesDAO();
+
+            try{
+                txtuf.setText(String.valueOf(cidade.getCidade(cbouf.getSelectedItem().toString())));
+            }catch(Exception e){
+
+            }
         }
-    }//GEN-LAST:event_cboufActionPerformed
+    }//GEN-LAST:event_cboufItemStateChanged
 
     /**
      * @param args the command line arguments

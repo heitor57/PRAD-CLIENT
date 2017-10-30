@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.io.Console;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +40,7 @@ public class UfDAO {
     public List<Uf>listarEstados(){
         try{
             List<Uf> lista = new ArrayList<Uf>();
-            String Sql= "select * from UF";
+            String Sql= "select * from uf";
             PreparedStatement stmt = conecta.prepareStatement(Sql);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){

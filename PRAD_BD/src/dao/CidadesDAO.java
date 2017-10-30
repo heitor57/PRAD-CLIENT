@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javabeans.Cidades;
+import javax.swing.JOptionPane;
 import jdbc.ConectionFactory;
 
 /**
@@ -23,17 +24,18 @@ public class CidadesDAO {
     public CidadesDAO(){
         this.conecta = new ConectionFactory().conecta();
     }
-    public ResultSet getCidade(String nome){
+    public int getCidade(String nome){
         try{
-            String Sql = "SELECT * FROM cidade,uf WHERE ID_UF = iduf AND CID_NOME = ?";
+            String Sql = "SELECT * FROM cidade,uf WHERE CID_UF=iduf AND sigla = ?";
             PreparedStatement stmt = conecta.prepareStatement(Sql);
-            stmt.setString(0,nome);
+            stmt.setString(1,nome);
             ResultSet rs = stmt.executeQuery();
-            return rs;
+            rs.next();
+            return rs.getInt("cid_uf");
         }catch (Exception e){
-            
+            JOptionPane.showMessageDialog(null,e);
         }
-        return null;
+        return -1;
     }
     public List<Cidades> listarCidades(){
         try{
