@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 30-Out-2017 às 22:44
--- Versão do servidor: 10.1.10-MariaDB
--- PHP Version: 7.0.4
+-- Host: localhost
+-- Generation Time: 30-Out-2017 às 23:25
+-- Versão do servidor: 10.1.28-MariaDB
+-- PHP Version: 7.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -41,7 +43,8 @@ INSERT INTO `cidade` (`CID_CODIGO`, `CID_NOME`, `CID_UF`) VALUES
 (3, 'Laranjal', 1),
 (4, 'Muriae', 1),
 (5, 'dasdsa', 1),
-(6, 'dasdsa', 2);
+(6, 'dasdsa', 2),
+(7, 'dsaads', 2);
 
 -- --------------------------------------------------------
 
@@ -70,7 +73,8 @@ INSERT INTO `cliente` (`CLI_CODIGO`, `CLI_NOME`, `CLI_EMAIL`, `CLI_TELEFONE`, `C
 (6, 'sadasd', '32dsasddsadas', '(32)1322-3123', ''),
 (7, 'DDDDD', 'dssaddsa', '(23)2332-1321', ''),
 (8, 'DDDDD', 'DSADSA', '(31)2132-1233', ''),
-(9, 'heitor', 'heitorwerneck@hotmail.com', '(23)2131-1323', '123');
+(9, 'heitor', 'heitorwerneck@hotmail.com', '(23)2131-1323', '123'),
+(10, 'cdsaadsads', 'dasdsaadsads', '(32)1123-1321', NULL);
 
 -- --------------------------------------------------------
 
@@ -122,17 +126,20 @@ ALTER TABLE `uf`
 -- AUTO_INCREMENT for table `cidade`
 --
 ALTER TABLE `cidade`
-  MODIFY `CID_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `CID_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `CLI_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `CLI_CODIGO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT for table `uf`
 --
 ALTER TABLE `uf`
   MODIFY `iduf` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Constraints for dumped tables
 --
@@ -142,6 +149,7 @@ ALTER TABLE `uf`
 --
 ALTER TABLE `cidade`
   ADD CONSTRAINT `ID_UF_FK` FOREIGN KEY (`CID_UF`) REFERENCES `uf` (`iduf`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
