@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Heitor
  */
 public class FrmConsulta extends javax.swing.JDialog {
-
+    Cliente tcliente;
     /**
      * Creates new form FrmConsulta
      */
@@ -93,8 +93,11 @@ public class FrmConsulta extends javax.swing.JDialog {
         obj.setNome((tabelacliente.getValueAt(tabelacliente.getSelectedRow(),1).toString()));
         obj.setEmail(tabelacliente.getValueAt(tabelacliente.getSelectedRow(),2).toString());
         obj.setTelefone(tabelacliente.getValueAt(tabelacliente.getSelectedRow(),3).toString());
-        Cliente t1= new Cliente(obj);
-        t1.setVisible(true);
+        if(tcliente != null)
+        tcliente.dispose();
+        tcliente= new Cliente(obj);
+        tcliente.setVisible(true);
+        
     }//GEN-LAST:event_tabelaclienteMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

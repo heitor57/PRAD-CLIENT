@@ -28,7 +28,7 @@ public class ClientesDAO {
             List<Clientes> lista = new ArrayList<Clientes>();
             String Sql="select * from cliente where cli_nome like ?";
             PreparedStatement stmt = conecta.prepareStatement(Sql);
-            stmt.setString(1,nome);
+            stmt.setString(1,"%"+nome+"%");
             
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){

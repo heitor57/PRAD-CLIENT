@@ -14,7 +14,6 @@ import java.util.List;
 import javabeans.Cidades;
 import javabeans.Clientes;
 import javabeans.Uf;
-import javafx.scene.control.ComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
